@@ -13,7 +13,7 @@ export function SectionTitle({
 }: SectionTitleProps) {
   return (
     <header className={centered ? "mx-auto max-w-3xl text-center" : "max-w-3xl"}>
-      <p className="mb-4 inline-flex items-center rounded-full border border-blue-400/30 bg-blue-500/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-blue-200">
+      <p className="mb-4 inline-flex items-center rounded-full border border-blue-400/30 bg-blue-500/10 px-4 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-blue-200">
         {eyebrow}
       </p>
       <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-5xl">

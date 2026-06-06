@@ -12,8 +12,8 @@ const fadeInUp = {
 
 export function WhatWeDoSection() {
   return (
-    <section id="what-we-do" className="px-5 py-20 sm:px-8">
-      <div className="mx-auto w-full max-w-7xl">
+    <section id="what-we-do" className="px-5 py-12 sm:px-8 md:py-20">
+      <div className="mx-auto w-full max-w-[1100px]">
         <SectionTitle
           eyebrow="What We Do"
           title="Websites, CRMs, voice, email, and workflows—built together."
@@ -29,7 +29,7 @@ export function WhatWeDoSection() {
               whileInView="visible"
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.5, delay: index * 0.06 }}
-              className="rounded-2xl border border-white/10 bg-slate-900/50 p-6 backdrop-blur-xl sm:p-8"
+              className="rounded-xl border border-white/10 bg-slate-900/50 p-6 backdrop-blur-xl transition-all duration-150 ease-out hover:-translate-y-0.5 hover:border-blue-400/35 sm:p-8"
             >
               <div className="grid gap-8 lg:grid-cols-[1fr_1.2fr] lg:items-start">
                 <div>
@@ -64,7 +64,7 @@ export function WhatWeDoSection() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.5 }}
-          className="mt-10 rounded-2xl border border-blue-400/25 bg-gradient-to-r from-blue-600/15 to-cyan-500/10 p-6 sm:p-8"
+          className="mt-10 rounded-xl border border-blue-400/25 bg-gradient-to-r from-blue-600/15 to-cyan-500/10 p-6 sm:p-8"
         >
           <h3 className="text-xl font-semibold text-white">
             How it all works together

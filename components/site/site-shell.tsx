@@ -52,17 +52,14 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
       </header>
       {children}
       <footer className="border-t border-white/10 px-5 py-12 sm:px-8">
-        <div className="mx-auto grid w-full max-w-7xl gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mx-auto grid w-full max-w-[1100px] gap-8 lg:grid-cols-3">
           <div>
             <p className="text-sm font-semibold text-white">ClientFlow</p>
             <p className="mt-3 text-sm leading-7 text-slate-400">
               Websites, CRM, voice automation, and workflow systems for service
               businesses.
             </p>
-          </div>
-          <div>
-            <p className="text-sm font-semibold text-white">Explore</p>
-            <ul className="mt-3 space-y-2 text-sm text-slate-400">
+            <ul className="mt-4 space-y-2 text-sm text-slate-400">
               <li>
                 <Link href="/services" className="hover:text-white">
                   Services
@@ -97,10 +94,16 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
           </div>
           <div>
             <p className="text-sm font-semibold text-white">Contact</p>
-            <ul className="mt-3 space-y-2 text-sm text-slate-400">
-              <li>hello@clientflow.ai</li>
-              <li>+1 (555) 014-3188</li>
-            </ul>
+            <p className="mt-3 text-sm leading-7 text-slate-400">
+              <a
+                href={BOOKING_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="text-blue-300 hover:text-blue-200"
+              >
+                Get in touch via the booking link above.
+              </a>
+            </p>
           </div>
         </div>
       </footer>

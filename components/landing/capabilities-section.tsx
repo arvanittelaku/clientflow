@@ -11,8 +11,8 @@ const fadeInUp = {
 
 export function CapabilitiesSection() {
   return (
-    <section id="capabilities" className="px-5 py-20 sm:px-8">
-      <div className="mx-auto w-full max-w-7xl">
+    <section id="capabilities" className="px-5 py-12 sm:px-8 md:py-20">
+      <div className="mx-auto w-full max-w-[1100px]">
         <SectionTitle
           eyebrow="Capabilities"
           title="The stack we implement and connect for you."
@@ -39,7 +39,7 @@ export function CapabilitiesSection() {
               whileInView="visible"
               viewport={{ once: true, amount: 0.25 }}
               transition={{ duration: 0.45, delay: index * 0.06 }}
-              className="rounded-2xl border border-white/10 bg-slate-900/50 p-6 backdrop-blur-xl"
+              className="rounded-xl border border-white/10 bg-slate-900/50 p-6 backdrop-blur-xl transition-all duration-150 ease-out hover:-translate-y-0.5 hover:border-blue-400/35"
             >
               <h3 className="text-lg font-semibold text-white">{item.title}</h3>
               <p className="mt-3 text-sm leading-7 text-slate-300">

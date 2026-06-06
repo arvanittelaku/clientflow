@@ -186,24 +186,60 @@ export const solutions = [
   },
 ];
 
-export const caseStudies = [
+export const industryCallouts = [
   {
-    name: "Dental Clinic — Inbound AI + GHL",
-    outcome: "42% more booked appointments",
+    title: "Dental Clinics",
+    label: "Outcomes tracked post-launch",
     description:
-      "AI receptionist handles inbound calls, books into GoHighLevel, and triggers SMS reminders via n8n—zero leads left on voicemail.",
+      "Inbound AI reception, GoHighLevel booking, SMS reminders, and recall automation—built as one connected system.",
   },
   {
-    name: "Real Estate — HubSpot + Outbound Voice",
-    outcome: "3.1x more qualified conversations",
+    title: "Real Estate Teams",
+    label: "Outcomes tracked post-launch",
     description:
-      "HubSpot pipeline with automated outbound qualification calls and instant SMS follow-up for hot buyer leads.",
+      "HubSpot or GHL pipelines with outbound qualification calls, instant SMS follow-up, and stage-based nurture.",
   },
   {
-    name: "Home Services — Website + Make + GHL",
-    outcome: "29% fewer no-shows",
+    title: "Home Services",
+    label: "Outcomes tracked post-launch",
     description:
-      "New conversion site, Make workflows from form to CRM, and automated call/email confirmation sequences.",
+      "Conversion website, form-to-CRM workflows, and automated call or email confirmation before every job.",
+  },
+];
+
+export const serviceSummariesBySlug: Record<string, string> = {
+  "conversion-websites": serviceDetails[0].summary,
+  "go-high-level-crm": serviceDetails[1].summary,
+  "hubspot-crm": serviceDetails[2].summary,
+  "ai-voice-agents": serviceDetails[3].summary,
+  "email-sms-follow-up": serviceDetails[4].summary,
+  "n8n-make-automation": serviceDetails[5].summary,
+};
+
+export const pricingTiers = [
+  {
+    name: "Starter System",
+    subtitle: "One core service",
+    price: "From €1,500",
+    description:
+      "A single focused build — CRM setup, one automation workflow, or a conversion landing page. Right for businesses validating their first automation investment.",
+    highlighted: false,
+  },
+  {
+    name: "Growth Stack",
+    subtitle: "2–3 integrated services",
+    price: "From €3,500",
+    description:
+      "Website + CRM + voice or follow-up automation, wired together. The most common starting point for service businesses ready to systematise their lead flow.",
+    highlighted: true,
+  },
+  {
+    name: "Full System",
+    subtitle: "Complete revenue infrastructure",
+    price: "From €7,000",
+    description:
+      "End-to-end build: conversion site, CRM, inbound/outbound voice, follow-up sequences, and n8n/Make orchestration — all integrated and launched.",
+    highlighted: false,
   },
 ];
 
@@ -235,27 +271,6 @@ export const benefits = [
   "GHL & HubSpot Expertise",
   "n8n & Make Integrations",
   "End-to-End Follow-Up",
-];
-
-export const testimonials = [
-  {
-    quote:
-      "They connected our website, GoHighLevel, and call automation in one system. We stopped losing after-hours leads completely.",
-    name: "Sarah Kim",
-    role: "Founder, Growth Dental Studio",
-  },
-  {
-    quote:
-      "The n8n workflows alone saved us hours every week. Leads from ads now hit HubSpot and trigger outbound follow-up automatically.",
-    name: "Marcus Lane",
-    role: "Operations Director, Prime Home Services",
-  },
-  {
-    quote:
-      "Our new site plus email and SMS sequences turned traffic into booked calls—we finally have a predictable pipeline.",
-    name: "Natalie Ortiz",
-    role: "Managing Broker, Elevate Realty Group",
-  },
 ];
 
 export const faqs = [

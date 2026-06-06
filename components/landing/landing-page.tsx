@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -22,13 +22,13 @@ import { Chatbot } from "@/components/landing/chatbot";
 import { CapabilitiesSection } from "@/components/landing/capabilities-section";
 import {
   benefits,
-  caseStudies,
   faqs,
+  industryCallouts,
   navLinks,
   painPoints,
+  pricingTiers,
   processSteps,
   solutions,
-  testimonials,
 } from "@/components/landing/data";
 import { SectionTitle } from "@/components/landing/section-title";
 import { WhatWeDoSection } from "@/components/landing/what-we-do-section";
@@ -44,6 +44,9 @@ type ContactFormValues = {
   message: string;
   hpField: string;
 };
+
+const SECTION = "px-5 py-12 sm:px-8 md:py-20";
+const CONTAINER = "mx-auto w-full max-w-[1100px]";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 24 },
@@ -63,28 +66,90 @@ const solutionLinks = [
 function GlassCard({
   children,
   className = "",
+  hover = true,
 }: {
   children: React.ReactNode;
   className?: string;
+  hover?: boolean;
 }) {
   return (
     <div
-      className={`rounded-2xl border border-white/10 bg-slate-900/60 p-6 shadow-[0_25px_70px_-35px_rgba(37,99,235,0.6)] backdrop-blur-xl ${className}`}
+      className={`rounded-xl border border-white/10 bg-slate-900/60 p-6 shadow-[0_25px_70px_-35px_rgba(37,99,235,0.6)] backdrop-blur-xl ${
+        hover
+          ? "transition-all duration-150 ease-out hover:-translate-y-0.5 hover:border-blue-400/35"
+          : ""
+      } ${className}`}
     >
       {children}
     </div>
   );
 }
 
+function HeroStackFlow() {
+  const steps = ["Website", "CRM", "Voice", "Booking"];
+
+  return (
+    <div className="relative mt-10 overflow-hidden rounded-xl border border-white/10 bg-slate-900/50 p-6 sm:p-8">
+      <div className="pointer-events-none absolute -right-10 top-1/2 h-32 w-32 -translate-y-1/2 rounded-full bg-blue-500/20 blur-3xl" />
+      <div className="pointer-events-none absolute -left-8 bottom-0 h-24 w-24 rounded-full bg-cyan-400/15 blur-3xl" />
+      <p className="text-center text-xs font-semibold uppercase tracking-[0.2em] text-blue-200">
+        Connected stack flow
+      </p>
+      <div className="relative mt-6 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+        {steps.map((step, index) => (
+          <div key={step} className="flex items-center gap-2 sm:gap-3">
+            <div className="rounded-lg border border-blue-400/30 bg-blue-500/10 px-3 py-2 text-sm font-medium text-white sm:px-4">
+              {step}
+            </div>
+            {index < steps.length - 1 ? (
+              <ArrowRight className="hidden h-4 w-4 shrink-0 text-slate-500 sm:block" />
+            ) : null}
+          </div>
+        ))}
+      </div>
+      <svg
+        className="mx-auto mt-6 w-full max-w-md text-slate-600"
+        viewBox="0 0 400 24"
+        fill="none"
+        aria-hidden
+      >
+        <path
+          d="M8 12 H392"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeDasharray="4 6"
+        />
+        <circle cx="8" cy="12" r="4" fill="rgb(59 130 246 / 0.5)" />
+        <circle cx="136" cy="12" r="4" fill="rgb(59 130 246 / 0.4)" />
+        <circle cx="264" cy="12" r="4" fill="rgb(59 130 246 / 0.4)" />
+        <circle cx="392" cy="12" r="4" fill="rgb(34 211 238 / 0.5)" />
+      </svg>
+    </div>
+  );
+}
+
 function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <motion.header
       initial={{ y: -28, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className="sticky top-0 z-50 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl"
+      className={`sticky top-0 z-50 backdrop-blur-xl transition-colors duration-200 ${
+        scrolled
+          ? "border-b border-white/10 bg-slate-950/90"
+          : "border-b border-transparent bg-slate-950/70"
+      }`}
     >
-      <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-5 py-4 sm:px-8">
+      <div className={`${CONTAINER} flex items-center justify-between px-5 py-4 sm:px-8`}>
         <a href="#top" className="flex items-center gap-3">
           <Image
             src="/clientflow-logo.png"
@@ -124,21 +189,22 @@ function Navbar() {
 
 function Hero() {
   return (
-    <section id="top" className="relative overflow-hidden px-5 pb-24 pt-20 sm:px-8">
+    <section id="top" className={`relative overflow-hidden ${SECTION} pb-16 md:pb-24`}>
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute -top-24 left-1/2 h-[22rem] w-[22rem] -translate-x-1/2 rounded-full bg-blue-500/20 blur-[120px]" />
         <div className="absolute bottom-0 right-0 h-[18rem] w-[18rem] rounded-full bg-cyan-400/15 blur-[100px]" />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(148,163,184,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(148,163,184,0.06)_1px,transparent_1px)] bg-[size:44px_44px]" />
       </div>
 
-      <div className="mx-auto grid w-full max-w-7xl gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+      <div className={CONTAINER}>
         <motion.div
           variants={fadeInUp}
           initial="hidden"
           animate="visible"
           transition={{ duration: 0.7, ease: "easeOut" }}
+          className="max-w-3xl"
         >
-          <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-blue-400/30 bg-blue-500/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-blue-200">
+          <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-blue-400/30 bg-blue-500/10 px-4 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-blue-200">
             <Sparkles className="h-4 w-4" />
             Websites · GHL · HubSpot · Voice AI · n8n & Make
           </p>
@@ -168,30 +234,8 @@ function Hero() {
               Explore Services
             </Link>
           </div>
-        </motion.div>
 
-        <motion.div
-          variants={fadeInUp}
-          initial="hidden"
-          animate="visible"
-          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-          className="grid gap-4 sm:grid-cols-2"
-        >
-          <GlassCard className="sm:col-span-2">
-            <p className="text-sm text-slate-300">Average response time</p>
-            <p className="mt-3 text-4xl font-semibold text-white">{"< 60s"}</p>
-            <p className="mt-2 text-sm text-slate-400">
-              Automated voice and messaging engages leads instantly.
-            </p>
-          </GlassCard>
-          <GlassCard>
-            <p className="text-sm text-slate-300">Booked calls</p>
-            <p className="mt-3 text-3xl font-semibold text-white">+38%</p>
-          </GlassCard>
-          <GlassCard>
-            <p className="text-sm text-slate-300">Manual tasks removed</p>
-            <p className="mt-3 text-3xl font-semibold text-white">-22 hrs/wk</p>
-          </GlassCard>
+          <HeroStackFlow />
         </motion.div>
       </div>
     </section>
@@ -200,8 +244,8 @@ function Hero() {
 
 function ProblemSection() {
   return (
-    <section className="px-5 py-20 sm:px-8">
-      <div className="mx-auto w-full max-w-7xl">
+    <section className={SECTION}>
+      <div className={CONTAINER}>
         <SectionTitle
           eyebrow="The Problem"
           title="Great leads still get lost in broken handoffs."
@@ -219,7 +263,7 @@ function ProblemSection() {
                 viewport={{ once: true, amount: 0.35 }}
                 transition={{ duration: 0.5, delay: index * 0.08 }}
               >
-                <GlassCard className="h-full transition hover:-translate-y-1 hover:border-blue-400/30">
+                <GlassCard className="h-full">
                   <Icon className="h-6 w-6 text-blue-300" />
                   <h3 className="mt-5 text-xl font-semibold text-white">{item.title}</h3>
                   <p className="mt-3 text-sm leading-7 text-slate-300">
@@ -237,8 +281,8 @@ function ProblemSection() {
 
 function SolutionsSection() {
   return (
-    <section id="solutions" className="px-5 py-20 sm:px-8">
-      <div className="mx-auto w-full max-w-7xl">
+    <section id="solutions" className={SECTION}>
+      <div className={CONTAINER}>
         <SectionTitle
           eyebrow="Solutions"
           title="We build the full revenue system, not one isolated tool."
@@ -257,7 +301,7 @@ function SolutionsSection() {
                 transition={{ duration: 0.5, delay: index * 0.08 }}
                 className="group"
               >
-                <GlassCard className="h-full transition duration-300 group-hover:border-blue-400/35 group-hover:shadow-[0_30px_80px_-35px_rgba(56,189,248,0.6)]">
+                <GlassCard className="h-full">
                   <div className="inline-flex rounded-xl border border-white/15 bg-white/10 p-3">
                     <Icon className="h-6 w-6 text-cyan-300" />
                   </div>
@@ -290,8 +334,8 @@ const featuredInsights = [...insightPosts]
 
 function InsightsPreviewSection() {
   return (
-    <section className="px-5 py-20 sm:px-8">
-      <div className="mx-auto w-full max-w-7xl">
+    <section className={SECTION}>
+      <div className={CONTAINER}>
         <SectionTitle
           eyebrow="Insights"
           title="Guides on CRM, voice AI, and automation that drive organic growth."
@@ -308,7 +352,7 @@ function InsightsPreviewSection() {
               transition={{ duration: 0.5, delay: index * 0.08 }}
             >
               <GlassCard className="h-full">
-                <p className="text-xs uppercase tracking-[0.14em] text-blue-200">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-blue-200">
                   {post.readTimeMinutes} min read
                 </p>
                 <h3 className="mt-3 text-lg font-semibold text-white">
@@ -337,17 +381,17 @@ function InsightsPreviewSection() {
 
 function DemoShowcaseSection() {
   return (
-    <section id="demo-showcase" className="px-5 py-20 sm:px-8">
-      <div className="mx-auto w-full max-w-7xl">
+    <section id="demo-showcase" className={SECTION}>
+      <div className={CONTAINER}>
         <SectionTitle
-          eyebrow="Demo Showcase"
-          title="Real systems built for real businesses."
-          description="Examples of automation experiences ClientFlow can launch for your team."
+          eyebrow="Industries"
+          title="Systems we typically build by vertical."
+          description="Every industry has different lead flow. These are the stacks we most often design, implement, and launch."
         />
         <div className="mt-12 grid gap-5 lg:grid-cols-3">
-          {caseStudies.map((item, index) => (
+          {industryCallouts.map((item, index) => (
             <motion.article
-              key={item.name}
+              key={item.title}
               variants={fadeInUp}
               initial="hidden"
               whileInView="visible"
@@ -355,10 +399,8 @@ function DemoShowcaseSection() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
               <GlassCard className="h-full">
-                <p className="inline-flex rounded-full border border-emerald-300/30 bg-emerald-400/10 px-3 py-1 text-xs font-medium text-emerald-200">
-                  {item.outcome}
-                </p>
-                <h3 className="mt-5 text-xl font-semibold text-white">{item.name}</h3>
+                <p className="text-xs font-medium text-slate-500">{item.label}</p>
+                <h3 className="mt-3 text-xl font-semibold text-white">{item.title}</h3>
                 <p className="mt-3 text-sm leading-7 text-slate-300">
                   {item.description}
                 </p>
@@ -373,8 +415,8 @@ function DemoShowcaseSection() {
 
 function ProcessSection() {
   return (
-    <section id="process" className="px-5 py-20 sm:px-8">
-      <div className="mx-auto w-full max-w-7xl">
+    <section id="process" className={SECTION}>
+      <div className={CONTAINER}>
         <SectionTitle
           eyebrow="Process"
           title="A clear 4-step path from bottlenecks to booked calls."
@@ -391,7 +433,7 @@ function ProcessSection() {
               transition={{ duration: 0.5, delay: index * 0.08 }}
             >
               <GlassCard className="h-full">
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-blue-200/90">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-blue-200">
                   Step {index + 1}
                 </p>
                 <h3 className="mt-3 text-xl font-semibold text-white">{item.title}</h3>
@@ -407,10 +449,59 @@ function ProcessSection() {
   );
 }
 
+function PricingSection() {
+  return (
+    <section id="pricing" className={SECTION}>
+      <div className={CONTAINER}>
+        <SectionTitle
+          eyebrow="Investment"
+          title="Transparent starting points."
+          description="Every engagement starts with a discovery call. These ranges reflect typical starting scopes — final pricing depends on your stack, volume, and integration complexity."
+        />
+        <div className="mt-12 grid gap-5 lg:grid-cols-3">
+          {pricingTiers.map((tier, index) => (
+            <motion.article
+              key={tier.name}
+              variants={fadeInUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.35 }}
+              transition={{ duration: 0.5, delay: index * 0.08 }}
+            >
+              <GlassCard
+                className={`relative h-full ${
+                  tier.highlighted
+                    ? "border-blue-400/40 ring-1 ring-blue-400/20"
+                    : ""
+                }`}
+              >
+                {tier.highlighted ? (
+                  <p className="absolute -top-3 left-6 rounded-full border border-blue-400/40 bg-blue-600 px-3 py-0.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-white">
+                    Most Popular
+                  </p>
+                ) : null}
+                <p className="text-sm font-medium text-blue-200">{tier.subtitle}</p>
+                <h3 className="mt-2 text-2xl font-semibold text-white">{tier.name}</h3>
+                <p className="mt-4 text-3xl font-semibold text-white">{tier.price}</p>
+                <p className="mt-4 text-sm leading-7 text-slate-300">{tier.description}</p>
+              </GlassCard>
+            </motion.article>
+          ))}
+        </div>
+        <p className="mx-auto mt-8 max-w-3xl text-center text-sm leading-7 text-slate-400">
+          All projects include a discovery call, full documentation, and a 30-day
+          post-launch check-in. Prices vary based on scope — book a call for an
+          exact quote.
+        </p>
+      </div>
+    </section>
+  );
+}
+
 function WhyChooseSection() {
   return (
-    <section className="px-5 py-20 sm:px-8">
-      <div className="mx-auto w-full max-w-7xl">
+    <section className={SECTION}>
+      <div className={CONTAINER}>
         <SectionTitle
           eyebrow="Why ClientFlow"
           title="Built for teams that need speed, consistency, and scale."
@@ -440,36 +531,58 @@ function WhyChooseSection() {
   );
 }
 
-function TestimonialsSection() {
+function AboutSection() {
   return (
-    <section className="px-5 py-20 sm:px-8">
-      <div className="mx-auto w-full max-w-7xl">
+    <section id="about" className={SECTION}>
+      <div className={CONTAINER}>
         <SectionTitle
-          eyebrow="Testimonials"
-          title="Trusted by teams focused on measurable growth."
+          eyebrow="Who we are"
+          title="Built by automation specialists, not a generic agency."
+          centered={false}
         />
-        <div className="mt-12 grid gap-5 lg:grid-cols-3">
-          {testimonials.map((item, index) => (
-            <motion.blockquote
-              key={item.name}
-              variants={fadeInUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.35 }}
-              transition={{ duration: 0.5, delay: index * 0.08 }}
-            >
-              <GlassCard className="h-full">
-                <p className="text-sm leading-7 text-slate-200">
-                  &ldquo;{item.quote}&rdquo;
-                </p>
-                <footer className="mt-6 border-t border-white/10 pt-5">
-                  <p className="font-semibold text-white">{item.name}</p>
-                  <p className="text-sm text-slate-400">{item.role}</p>
-                </footer>
-              </GlassCard>
-            </motion.blockquote>
-          ))}
+        <div className="mt-8 max-w-3xl space-y-5 text-base leading-8 text-slate-300 sm:text-lg">
+          <p>
+            ClientFlow was founded by a team with hands-on experience building
+            LLM-powered chatbots, voice assistants, RAG pipelines, and n8n automation
+            workflows for real businesses — not theoretical case studies.
+          </p>
+          <p>
+            We work with a small number of clients at a time to keep quality high
+            and results measurable. Every system we build is documented, testable,
+            and owned by you.
+          </p>
         </div>
+      </div>
+    </section>
+  );
+}
+
+function CaseStudiesComingSoonSection() {
+  return (
+    <section className={SECTION}>
+      <div className={CONTAINER}>
+        <GlassCard hover={false} className="mx-auto max-w-3xl text-center">
+          <p className="mb-4 inline-flex items-center rounded-full border border-blue-400/30 bg-blue-500/10 px-4 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-blue-200">
+            Case Studies
+          </p>
+          <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+            Real results take time to document.
+          </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-base leading-8 text-slate-300">
+            We&apos;re currently working with our first clients to build detailed
+            case studies. In the meantime, book a free strategy call — we&apos;ll walk
+            you through the exact systems we build and what outcomes to expect.
+          </p>
+          <a
+            href={BOOKING_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-500"
+          >
+            Book a Strategy Call
+            <ArrowRight className="h-4 w-4" />
+          </a>
+        </GlassCard>
       </div>
     </section>
   );
@@ -479,8 +592,8 @@ function FaqSection() {
   const [openItem, setOpenItem] = useState<number | null>(0);
 
   return (
-    <section className="px-5 py-20 sm:px-8">
-      <div className="mx-auto w-full max-w-4xl">
+    <section className={SECTION}>
+      <div className={`${CONTAINER} max-w-4xl`}>
         <SectionTitle
           eyebrow="FAQ"
           title="Common questions before we start."
@@ -490,7 +603,7 @@ function FaqSection() {
           {faqs.map((item, index) => {
             const isOpen = openItem === index;
             return (
-              <GlassCard key={item.question} className="p-0">
+              <GlassCard key={item.question} className="p-0" hover={false}>
                 <button
                   type="button"
                   onClick={() => setOpenItem(isOpen ? null : index)}
@@ -592,13 +705,13 @@ function FinalCta() {
   };
 
   return (
-    <section id="contact" className="px-5 pb-24 pt-12 sm:px-8">
-      <div className="mx-auto w-full max-w-5xl">
-        <GlassCard className="relative overflow-hidden border-blue-400/25 bg-gradient-to-br from-blue-600/20 via-slate-900/80 to-cyan-500/10 p-8 sm:p-12">
+    <section id="contact" className={`${SECTION} pb-16 md:pb-24`}>
+      <div className={`${CONTAINER} max-w-5xl`}>
+        <GlassCard hover={false} className="relative overflow-hidden border-blue-400/25 bg-gradient-to-br from-blue-600/20 via-slate-900/80 to-cyan-500/10 p-8 sm:p-12">
           <div className="absolute -right-24 -top-20 h-56 w-56 rounded-full bg-cyan-400/20 blur-[90px]" />
           <div className="relative grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-start">
             <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-blue-200/90">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-blue-200">
               Final Step
             </p>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-5xl">
@@ -721,7 +834,7 @@ function FinalCta() {
 function Footer() {
   return (
     <footer className="border-t border-white/10 px-5 py-12 sm:px-8">
-      <div className="mx-auto grid w-full max-w-7xl gap-10 sm:grid-cols-2 lg:grid-cols-4">
+      <div className={`${CONTAINER} grid gap-10 lg:grid-cols-3`}>
         <div>
           <Image
             src="/clientflow-logo.png"
@@ -733,10 +846,7 @@ function Footer() {
           <p className="mt-4 text-sm leading-7 text-slate-400">
             AI systems that help service businesses capture and convert more leads.
           </p>
-        </div>
-        <div>
-          <p className="text-sm font-semibold text-white">Company</p>
-          <ul className="mt-4 space-y-3 text-sm text-slate-400">
+          <ul className="mt-6 space-y-3 text-sm text-slate-400">
             <li>
               <Link href="/services" className="hover:text-white">
                 Services
@@ -757,38 +867,38 @@ function Footer() {
                 Process
               </a>
             </li>
-            <li>
-              <a href={BOOKING_URL} target="_blank" rel="noreferrer" className="hover:text-white">
-                Book Call
-              </a>
-            </li>
           </ul>
         </div>
         <div>
           <p className="text-sm font-semibold text-white">Legal</p>
           <ul className="mt-4 space-y-3 text-sm text-slate-400">
             <li>
-              <a href="/privacy-policy" className="hover:text-white">
+              <Link href="/privacy-policy" className="hover:text-white">
                 Privacy Policy
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/terms" className="hover:text-white">
+              <Link href="/terms" className="hover:text-white">
                 Terms of Service
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
         <div>
           <p className="text-sm font-semibold text-white">Contact</p>
-          <ul className="mt-4 space-y-3 text-sm text-slate-400">
-            <li>hello@clientflow.ai</li>
-            <li>+1 (555) 014-3188</li>
-            <li>Mon-Fri, 9:00 AM - 6:00 PM</li>
-          </ul>
+          <p className="mt-4 text-sm leading-7 text-slate-400">
+            <a
+              href={BOOKING_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="text-blue-300 hover:text-blue-200"
+            >
+              Get in touch via the booking link above.
+            </a>
+          </p>
         </div>
       </div>
-      <div className="mx-auto mt-10 w-full max-w-7xl border-t border-white/10 pt-6 text-sm text-slate-500">
+      <div className={`${CONTAINER} mt-10 border-t border-white/10 pt-6 text-sm text-slate-500`}>
         © {new Date().getFullYear()} ClientFlow. All rights reserved.
       </div>
     </footer>
@@ -808,8 +918,10 @@ export function LandingPage() {
         <InsightsPreviewSection />
         <DemoShowcaseSection />
         <ProcessSection />
+        <PricingSection />
         <WhyChooseSection />
-        <TestimonialsSection />
+        <AboutSection />
+        <CaseStudiesComingSoonSection />
         <FaqSection />
         <FinalCta />
       </main>
